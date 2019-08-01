@@ -1,7 +1,3 @@
-import React from 'react';
+export * from './Button';
 
-import { MyDiv } from './styled';
-
-const HelloWorld = () => <MyDiv>Hello</MyDiv>;
-
-export default HelloWorld;
+export * from './Typography';

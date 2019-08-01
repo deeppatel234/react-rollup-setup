@@ -1,12 +1,12 @@
 import React from 'react';
-import Hello from 'react-rollup-setup';
+import { Button } from 'react-rollup-setup';
 import { Test } from './styled';
 
 function App() {
   return (
     <div>
-      <Hello />
-      <Test>World</Test>
+      <Test>Hello</Test>
+      <Button>World</Button>
     </div>
   );
 }

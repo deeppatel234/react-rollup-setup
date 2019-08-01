@@ -4,6 +4,7 @@ import commonjs from 'rollup-plugin-commonjs';
 import { terser } from 'rollup-plugin-terser';
 import del from 'rollup-plugin-delete';
 
+const INPUT_FILE = 'src/index.js';
 const DIST_DIR = 'dist';
 
 const EXTENSIONS = ['.js', '.jsx'];
@@ -14,37 +15,48 @@ const GLOBALS = {
   'styled-components': 'styled',
 };
 
-const isProduction = process.env.BUILD === 'production';
-
-module.exports = {
-  input: 'src/index.js',
-  external: Object.keys(GLOBALS),
-  output: [
-    {
-      file: `${DIST_DIR}/bundle.cjs.js`,
-      format: 'cjs',
-    },
-    {
-      file: `${DIST_DIR}/bundle.esm.js`,
-      format: 'esm',
-    },
-    {
-      globals: GLOBALS,
-      name: 'ReactRollup',
-      file: `${DIST_DIR}/bundle.umd.js`,
-      format: 'umd',
-    },
-  ],
-  plugins: [
-    del({ targets: 'dist/*' }),
-    resolve({
-      extensions: EXTENSIONS,
-    }),
-    babel({
-      extensions: EXTENSIONS,
-      exclude: 'node_modules/**',
-    }),
-    commonjs(),
-    isProduction && terser(),
-  ],
+const BABEL_CONFIG = {
+  extensions: EXTENSIONS,
+  exclude: 'node_modules/**',
 };
+
+const OUTPUTS = {
+  globals: GLOBALS,
+  name: 'ReactRollup',
+  format: 'umd',
+};
+
+module.exports = [
+  {
+    input: INPUT_FILE,
+    external: Object.keys(GLOBALS),
+    output: {
+      ...OUTPUTS,
+      file: `${DIST_DIR}/bundle.js`,
+    },
+    plugins: [
+      del({ targets: 'dist/*' }),
+      resolve({
+        extensions: EXTENSIONS,
+      }),
+      babel(BABEL_CONFIG),
+      commonjs(),
+    ],
+  },
+  {
+    input: INPUT_FILE,
+    external: Object.keys(GLOBALS),
+    output: {
+      ...OUTPUTS,
+      file: `${DIST_DIR}/bundle.min.js`,
+    },
+    plugins: [
+      resolve({
+        extensions: EXTENSIONS,
+      }),
+      babel(BABEL_CONFIG),
+      commonjs(),
+      terser(),
+    ],
+  },
+];

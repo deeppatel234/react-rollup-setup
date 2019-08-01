@@ -2,16 +2,21 @@
   "name": "react-rollup-setup",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/bundle.umd.js",
-  "module": "dist/bundle.esm.js",
+  "main": "dist/index.js",
+  "module": "dist/esm/index.js",
+  "unpkg": "dist/bundle.min.js",
+  "sideEffects": false,
   "files": [
     "dist"
   ],
   "scripts": {
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
-    "dev": "rollup -c",
-    "build": "rollup -c --environment INCLUDE_DEPS,BUILD:production"
+    "compile": "babel src --extensions '.js'",
+    "build:cjs": "npm run compile -- --out-dir dist",
+    "build:esm": "BABEL_ENV=esm npm run compile -- --out-dir dist/esm",
+    "build:umd": "rollup -c",
+    "build": "npm run build:umd && npm run build:cjs && npm run build:esm"
   },
   "repository": {
     "type": "git",
