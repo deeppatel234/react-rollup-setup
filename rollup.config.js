@@ -1,6 +1,5 @@
 import babel from 'rollup-plugin-babel';
 import resolve from 'rollup-plugin-node-resolve';
-import commonjs from 'rollup-plugin-commonjs';
 import { terser } from 'rollup-plugin-terser';
 import del from 'rollup-plugin-delete';
 
@@ -40,7 +39,6 @@ module.exports = [
         extensions: EXTENSIONS,
       }),
       babel(BABEL_CONFIG),
-      commonjs(),
     ],
   },
   {
@@ -55,7 +53,6 @@ module.exports = [
         extensions: EXTENSIONS,
       }),
       babel(BABEL_CONFIG),
-      commonjs(),
       terser(),
     ],
   },
