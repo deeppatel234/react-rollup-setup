@@ -18,7 +18,10 @@
     "build:umd": "rollup -c",
     "build": "npm run build:umd && npm run build:cjs && npm run build:esm",
     "storybook": "start-storybook",
-    "storybook:build": "build-storybook -c .storybook"
+    "prestorybook:build": "rm -rf storybook-static",
+    "storybook:build": "build-storybook -c .storybook",
+    "predeploy": "npm run storybook:build",
+    "deploy": "gh-pages -d storybook-static"
   },
   "repository": {
     "type": "git",
@@ -49,6 +52,7 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-react": "^7.14.3",
+    "gh-pages": "^2.0.1",
     "prettier": "^1.18.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
